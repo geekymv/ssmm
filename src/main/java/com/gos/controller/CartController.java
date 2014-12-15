@@ -50,11 +50,56 @@ public class CartController {
 		User user = (User) session.getAttribute("user");
 		if(user != null) {
 			List<Cart> carts = cartService.showMyCart(user.getId());
+			float sum = 0;
+			// 计算总计
+			for(Cart cart : carts) {
+				sum += cart.getItemprice();
+			}
 			model.addAttribute("carts", carts);
+			model.addAttribute("sum", sum);
+			
 			return "mycart";			
 		}
 		
 		return "redirect:login";
 	}
 	
+	/**
+	 * 结账
+	 * @return
+	 */
+	@RequestMapping("/pay")
+	@ResponseBody
+	public String pay(HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if(user != null) {
+			boolean res = cartService.pay(user);
+			if(res) {
+				return "success";
+			}
+		}
+		
+		return "fail";
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

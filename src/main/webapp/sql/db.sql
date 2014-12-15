@@ -1,27 +1,39 @@
 
-create database smmm;
+create database dvd;
 
-/*用户表*/
-create table t_login(
-	id int primary key auto_increment,
-	login_id varchar(30),
-	pwd varchar(30),
-	status int 
+/*用户*/
+CREATE TABLE `t_login` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `loginId` varchar(20) DEFAULT NULL,
+  `pwd` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 
-/*货物表*/
-create table t_commodity(
-	id int primary key auto_increment,
-	cname varchar(30),
-	status int
+/*货物*/
+CREATE TABLE `t_dvd` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `createDate` date DEFAULT NULL,
+  `color` varchar(5) DEFAULT NULL,
+  `detail` varchar(20) DEFAULT NULL,
+  `price` decimal(10,3) DEFAULT NULL,
+  `imgIndex` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 
-/*进货记录表*/
-create table t_record(
-	id int primary key auto_increment,
-	cid int, /*货物id*/
-	quantity int /*进货数量*/
+/*购物车*/
+CREATE TABLE `t_cart` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `userId` int(11) DEFAULT NULL,
+  `dvdId` int(11) DEFAULT NULL,
+  `buynum` int(11) DEFAULT NULL,
+  `itemprice` decimal(10,3) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
+
+
 
 
 

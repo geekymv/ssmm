@@ -6,7 +6,7 @@ public class Cart {
 	private User user;
 	private Dvd dvd;
 	private Integer buynum;
-	private Float itemprice;
+	private Float itemprice; // 本项小计
 	private Integer status;
 	
 	@Override

@@ -6,15 +6,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/resources/bootstrap/css/bootstrap.min.css"/>
+<style type="text/css">
+	.table {
+		margin: 0 auto;
+		width: 400px;	
+	}
+</style>
+
 <script type="text/javascript" src="${pageContext.request.contextPath }/resources/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
-	function addCart(id) {
+	function pay() {
 		$.ajax({
-			url: "add-cart",
-			data: {"id": id},
+			url: "pay",
 			dataType: "text",
 			success: function(data){
 				alert(data);
+				$(".d-cl").remove();
+				$(".shop").before("<td>购物车中还没有任何商品！</td>");
+				$(".pay").css("display","none");
 			}
 		});
 	}
@@ -23,31 +33,62 @@
 
 </head>
 <body>
-	<h3>我的购物车</h3>
-	<table>
+	
+	<table class="table table-bordered table-condensed">
+		<caption>我的购物车</caption>
 		<c:choose>
 			<c:when test="${empty carts }">
-				购物车中还没有任何商品！
+				<tr>
+					<td>购物车中还没有任何商品！</td>
+					<td><a href="list-dvd">继续购物</a></td>
+				</tr>
 			</c:when>
 			<c:otherwise>
-				<tr>
+				<tr class="d-cl">
 				 <th>序号</th><th>名称</th> <th>价格</th> <th>数量</th> <th>小计</th> 
 				</tr>
 				
 				<c:forEach items="${carts }" var="cart" varStatus="s">
-				<tr>
-					<td>${s.index }</td>	
+				<tr class="d-cl">
+					<td>${s.count }</td>	
 					<td>${cart.dvd.name }</td>		
 					<td>${cart.dvd.price }</td>		
 					<td>${cart.buynum }</td>		
 					<td>${cart.buynum * cart.dvd.price }</td>		
 				</tr>	
 			 	</c:forEach>
+				<tr>
+					<td colspan="5" class="d-cl">总计：${sum }元</td>
+				</tr>			 
+				<tr>
+					<td colspan="2" class="shop"><a href="list-dvd">继续购物</a></td> <td colspan="3" class="pay"><a onclick="pay()">结账</a></td>
+				</tr>
+			
 			</c:otherwise>
 		</c:choose>
+		
+	
 	</table>
 	
-	
+
+		
 	
 </body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </html>

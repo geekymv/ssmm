@@ -68,5 +68,45 @@ public class CartServiceImpl implements CartService {
 		
 		return cartDAO.queryMyCart(userId);
 	}
+	
+	
+	public boolean pay(User user) {
+		
+		List<Cart> carts = cartDAO.queryMyCart(user.getId());
+		
+		boolean falg = true;
+		for (Cart cart : carts) {
+			cart.setStatus(-1); // 表示删除
+			int res = cartDAO.update(cart);
+			if(res != 1) {
+				falg = false;
+			}
+		}
+		
+		return falg;
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
