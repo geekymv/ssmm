@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC   
+"-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gos.dao.CartDAO">
+	
+	<!-- 添加商品到购物车  -->
+	<insert id="add" parameterType="Cart">
+		insert into t_cart( userId, dvdId, buynum, itemprice, status ) 
+		values(#{user.id}, #{dvd.id}, #{buynum}, #{itemprice}, #{status});
+	</insert>
+	
+	<update id="update" parameterType="Cart">
+		 update t_cart set buynum=#{buynum}, itemprice=#{itemprice} where id=#{id};
+	</update>
+	
+	<!-- 根据用户id和商品id判断该商品是否在购物车中且未被删除status=1 -->
+	<select id="query" resultMap="CartResultMap">
+		select c.id c_id, c.buynum, c.itemprice, c.status c_status, 
+		d.id d_id, d.name, d.status d_status, d.createDate, d.color, d.detail, d.price, d.imgIndex,
+		l.id l_id, l.loginId
+		from t_cart c 
+		inner join t_dvd d on c.dvdId=d.id
+		inner join t_login l on c.userId=l.id
+		where c.userId=#{userId} and c.dvdId=#{dvdId} and c.status=1;
+	</select>
+	
+	<!-- 我的购物车 -->
+	<select id="queryMyCart" resultMap="CartResultMap">
+		select c.id c_id, c.buynum, c.itemprice, c.status c_status, 
+		d.id d_id, d.name, d.status d_status, d.createDate, d.color, d.detail, d.price, d.imgIndex,
+		l.id l_id, l.loginId
+		from t_cart c 
+		inner join t_dvd d on c.dvdId=d.id
+		inner join t_login l on c.userId=l.id
+		where c.userId=#{userId} and c.status=1;
+	</select>
+	
+			
+	<resultMap type="Cart" id="CartResultMap">
+		<id column="c_id" property="id"/>
+		<result column="buynum" property="buynum"/>
+		<result column="itemprice" property="itemprice"/>
+		<result column="c_status" property="status"/>
+		<association property="dvd" javaType="Dvd">
+			<id column="d_id" property="id"/>
+			<result column="name" property="name"/>
+			<result column="d_status" property="status"/>
+			<result column="createDate" property="createDate"/>
+			<result column="color" property="color"/>
+			<result column="detail" property="detail"/>
+			<result column="price" property="price"/>
+			<result column="imgIndex" property="imgIndex"/>
+		</association>
+		<association property="user" javaType="User">
+			<id column="l_id" property="id"/>
+			<result column="loginId" property="loginId"/>
+		</association>
+	</resultMap>
+	
+	
+			
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
